@@ -1,0 +1,99 @@
+@import '../styles/mixins';
+$font-family-montserrat: 'br-sonoma-medium', 'Montserrat', sans-serif;
+
+.botoncheck {
+    background-color: #389e0d;
+    width: 24px;
+    height: 24px;
+}
+
+.seccionesseleccion {
+    padding: 16px 24px 40px;
+    box-shadow: 0 1px 32px #aeacf359;
+}
+
+.padrequote {
+    margin-top: 50px;
+    position: relative;
+    z-index: 1;
+}
+
+.mobilebr {
+    @include respond-to("mobile") {
+        display: none;
+    }
+}
+
+.plan-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    border: 1px solid #ddd;
+    transition: box-shadow 0.3s ease-in-out;
+
+    &:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .plan-icon {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+
+        img {
+            width: 40px;
+            height: 40px;
+        }
+    }
+
+    h3 {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+    }
+
+    p {
+        &.text-sm {
+            color: #666;
+        }
+
+        &.text-xl {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    }
+
+    ul {
+        margin-bottom: 1rem;
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+    }
+
+
+
+}
+
+.planesbox {
+    padding: 40px;
+    --tw-shadow: 0 1px 24px 0 rgba(174, 172, 243, .251);
+}
+
+.btnplan {
+    font-family: $font-family-montserrat;
+    background-color: #ff1c44;
+    border-color: #ff1c44;
+    padding: 14px 10px;
+}
+
+.imagenicon{
+    width: 40px;
+}
+.planrecomendadotext{
+    width: 125px;
+}
+.planrecomendadotextvacio{
+    height: 20px;
+}

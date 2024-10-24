@@ -1,0 +1,36 @@
+.containerstepper {
+    position: relative;
+    width: 100%;
+    margin: 0 auto;
+    padding: 16px 32px; /* Ajustamos padding para darle más espacio */
+    background-color: #EDEFFC;
+}
+
+.containerstepperhijo {
+    max-width: 380px;
+    height: 30px;
+    margin: 0 auto;
+}
+
+.md\:hidden { /* Esto asegura que el stepper para móviles solo se muestre en pantallas más pequeñas */
+    display: none;
+}
+
+.md\:flex {
+    display: flex;
+}
+
+@media (max-width: 768px) {
+    .md\:hidden {
+        display: flex;
+    }
+
+    .md\:flex {
+        display: none;
+    }
+
+    .containerstepper {
+        padding: 12px 16px; /* Reduce el padding en pantallas móviles */
+    }
+}
+

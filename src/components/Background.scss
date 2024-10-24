@@ -1,0 +1,26 @@
+@import '../styles/mixins';
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-repeat: no-repeat; 
+
+    // Para pantallas grandes (desktop)
+    @include respond-to("notmobile") {
+      background-image: url('/assets/blur-asset-left2.png'), url('/assets/blur-asset-left.png'), url('/assets/blur-asset.png') ; /* Todas las imágenes para desktop */
+      background-position: left bottom, left bottom, right top ;
+      background-size: contain, contain, contain, contain;
+    }
+
+    // Para pantallas móviles (mobile)
+    @include respond-to("mobile") {
+      background-image: url('/assets/blur-asset-left2.png'), url('/assets/blur-asset1.png'); /* Solo las imágenes móviles */
+      background-position: left bottom, right top;
+      background-size: contain, contain;
+    }
+}
+
