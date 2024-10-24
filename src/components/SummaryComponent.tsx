@@ -9,7 +9,7 @@ interface SummaryProps {
   };
   selectedPlan: {
     name: string;
-    price: number;
+    finalPrice: number;
   };
 }
 
@@ -63,7 +63,7 @@ const Summary: React.FC<SummaryProps> = ({ user, selectedPlan }) => {
           <p className="font-bold text-gray-700">Plan elegido</p>
           <p className="text-gray-600">{selectedPlan.name}</p>
           <p className="text-gray-600">
-            Costo del Plan: ${selectedPlan.price} al mes
+            Costo del Plan: ${selectedPlan.finalPrice} al mes
           </p>
         </div>
       </div>

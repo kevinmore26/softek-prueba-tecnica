@@ -21,7 +21,7 @@ const SummaryContainer: React.FC = () => {
 
   const [selectedPlan, setSelectedPlan] = useState<{
     name: string;
-    price: number;
+    finalPrice: number;
   } | null>(null);
 
   const [loading, setLoading] = useState(true);

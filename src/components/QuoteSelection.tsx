@@ -16,10 +16,15 @@ const PlanSelection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
   // Función para capturar el plan seleccionado y almacenarlo en localStorage
-  const handleSelectPlan = (plan: { name: string; price: number }) => {
+  const handleSelectPlan = (plan: {
+    name: string;
+    price: number;
+    finalPrice: number;
+  }) => {
     const selectedPlanData = {
       name: plan.name,
       price: plan.price,
+      finalPrice: plan.finalPrice,
     };
     localStorage.setItem("selectedPlan", JSON.stringify(selectedPlanData)); // Guardar el plan en localStorage
     console.log("Plan seleccionado guardado:", selectedPlanData);
@@ -44,7 +49,21 @@ const PlanSelection: React.FC = () => {
 
     setTimeout(async () => {
       const plansData = await getPlansData();
-      const filteredPlans = plansData.list.slice(0, 3); // Filtramos solo 3 planes
+      let filteredPlans = plansData.list.slice(0, 3); // Filtramos solo 3 planes
+
+      // Aplicar descuento del 5% si la opción seleccionada es "paraAlguien"
+      if (option === "paraAlguien") {
+        filteredPlans = filteredPlans.map((plan: any) => ({
+          ...plan,
+          finalPrice: plan.price * 0.95, // Aplica el 5% de descuento
+        }));
+      } else {
+        filteredPlans = filteredPlans.map((plan: any) => ({
+          ...plan,
+          finalPrice: plan.price, // Sin descuento
+        }));
+      }
+
       setPlans(filteredPlans);
       setLoading(false); // Finaliza el skeleton
     }, 1000);
@@ -152,29 +171,23 @@ const PlanSelection: React.FC = () => {
             )}
           </div>
         </div>
-        {/* se que debería usar un lazyloading o useMemo, estoy simulando en este caso porque son muy pocos datos  */}
+
         {/* Skeleton o planes */}
         <div className="my-8">
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {/* se que debería usar un lazyloading o useMemo, estoy simulando en este caso porque son muy pocos datos  
               {/* Skeleton loading cards estilizados */}
               {Array.from({ length: 3 }).map((_, index) => (
                 <div
                   key={index}
                   className="skeleton-card bg-gray-200 rounded-lg p-4 animate-pulse"
-                  style={{ height: "350px" }} // Aumentamos la altura del contenedor
+                  style={{ height: "350px" }}
                 >
-                  <div className="skeleton-image bg-gray-300 w-12 h-12 mb-8 rounded"></div>{" "}
-                  {/* Aumentamos el margen para mayor separación */}
-                  <div className="skeleton-title bg-gray-300 h-6 w-3/4 mb-6 rounded"></div>{" "}
-                  {/* Aumentamos el margen */}
-                  <div className="skeleton-text bg-gray-300 h-4 w-full mb-4 rounded"></div>{" "}
-                  {/* Aumentamos el margen */}
-                  <div className="skeleton-text bg-gray-300 h-4 w-2/3 mb-6 rounded"></div>{" "}
-                  {/* Aumentamos el margen */}
-                  <div className="skeleton-button bg-gray-300 h-10 w-1/2 rounded mt-auto"></div>{" "}
-                  {/* Ajustamos la altura del botón */}
+                  <div className="skeleton-image bg-gray-300 w-12 h-12 mb-8 rounded"></div>
+                  <div className="skeleton-title bg-gray-300 h-6 w-3/4 mb-6 rounded"></div>
+                  <div className="skeleton-text bg-gray-300 h-4 w-full mb-4 rounded"></div>
+                  <div className="skeleton-text bg-gray-300 h-4 w-2/3 mb-6 rounded"></div>
+                  <div className="skeleton-button bg-gray-300 h-10 w-1/2 rounded mt-auto"></div>
                 </div>
               ))}
             </div>
@@ -187,9 +200,8 @@ const PlanSelection: React.FC = () => {
                     key={plan.name}
                     className="planesbox bg-white rounded-lg shadow-md relative p-4 flex flex-col justify-between h-full"
                   >
-                    {/* Contenido del plan */}
                     <div className="flex flex-col flex-grow">
-                      {index === 1 && ( // Verificamos si es el segundo plan
+                      {index === 1 && (
                         <div className="inline-block bg-green-100 text-green-700 font-bold text-xs px-2 py-1 rounded-full mb-2 planrecomendadotext">
                           Plan recomendado
                         </div>
@@ -206,9 +218,13 @@ const PlanSelection: React.FC = () => {
                       <p className="text-gray-700 font-semibold">
                         Costo del plan
                       </p>
-                      <p className="line-through text-gray-400">$39 antes</p>
+                      {selectedOption === "paraAlguien" && (
+                        <p className="line-through text-gray-400">
+                          ${plans[index]?.price} antes
+                        </p>
+                      )}
                       <p className="text-xl font-bold text-black">
-                        ${plan.price} al mes
+                        ${plan.finalPrice} al mes
                       </p>
                       <hr className="border-t-2 border-gray-300 my-5" />
                       <ul className="list-disc ml-5">
@@ -220,9 +236,8 @@ const PlanSelection: React.FC = () => {
                       </ul>
                     </div>
 
-                    {/* Botón siempre al final */}
                     <button
-                      onClick={() => handleSelectPlan(plan)} // Llamada a la función para guardar el plan seleccionado
+                      onClick={() => handleSelectPlan(plan)}
                       className="mt-4 bg-red-500 btnplan w-full text-white py-2 px-4 rounded-full hover:bg-red-500 transition-all"
                     >
                       Seleccionar Plan
@@ -248,7 +263,7 @@ const PlanSelection: React.FC = () => {
                           className="w-12 h-12"
                         />
                       </div>
-                      {currentPage === 1 && ( // Verificamos si es el segundo plan
+                      {currentPage === 1 && (
                         <div className="inline-block bg-green-100 text-green-700 font-bold text-xs px-2 py-1 rounded-full mb-2">
                           Plan recomendado
                         </div>
@@ -256,9 +271,14 @@ const PlanSelection: React.FC = () => {
                       <p className="text-gray-700 font-semibold">
                         Costo del plan
                       </p>
-                      <p className="line-through text-gray-400">$39 antes</p>
+                      {selectedOption === "paraAlguien" && (
+                        <p className="line-through text-gray-400">
+                          ${plans[currentPage]?.price} antes
+                        </p>
+                      )}
+
                       <p className="text-xl font-bold text-black">
-                        ${plans[currentPage]?.price} al mes
+                        ${plans[currentPage]?.finalPrice} al mes
                       </p>
                       <hr className="border-t-2 border-gray-300 my-5" />
                       <ul className="list-disc ml-5">
@@ -271,7 +291,7 @@ const PlanSelection: React.FC = () => {
                         )}
                       </ul>
                       <button
-                        onClick={() => handleSelectPlan(plans[currentPage])} // Llamada a la función para guardar el plan seleccionado
+                        onClick={() => handleSelectPlan(plans[currentPage])}
                         className="mt-4 bg-red-500 btnplan w-full text-white py-2 px-4 rounded-full hover:bg-red-500 transition-all"
                       >
                         Seleccionar Plan
