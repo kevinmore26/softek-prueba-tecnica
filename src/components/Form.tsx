@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import InputMask from "react-input-mask";
 import "./Form.scss";
 import { useNavigate } from "react-router-dom";
 import Modal from "./ModalTerminos";
@@ -114,12 +115,12 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
       </div>
 
       <div className="form__group">
-        <input
-          type="text"
-          placeholder="Celular"
+        <InputMask
+          mask="999999999" // Define la máscara de 9 dígitos
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
-          className="w-full border monserratregular border-black rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-black focus:border-black"
+          className="w-full border border-gray-300 rounded-lg p-4 focus:outline-none focus:ring-0 focus:border-blue-500"
+          placeholder="Celular"
           required
         />
       </div>
