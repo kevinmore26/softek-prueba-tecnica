@@ -161,7 +161,7 @@ const Form: React.FC<FormProps> = ({ onSubmit }) => {
         className="text-sm monserratbasic underline cursor-pointer"
         onClick={openModal}
       >
-        Aplican Términos y Condiciones.
+        Aplican Términos y Condiciones
       </p>
 
       <button
